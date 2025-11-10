@@ -1,0 +1,125 @@
+{% extends 'students/base.html' %}
+
+{% block content %}
+<div class="main-container">
+    <div class="p-4 p-md-5">
+        <!-- Header Section -->
+        <div class="row align-items-center mb-5 slide-in">
+            <div class="col-md-8">
+                <h1 class="display-5 fw-bold mb-3 text-dark">
+                    <i class="fas fa-users me-3 text-primary-orange"></i>
+                    Student Management
+                </h1>
+                <p class="lead text-muted">Efficiently manage all your student records in one place</p>
+            </div>
+            <div class="col-md-4 text-md-end">
+                <a href="{% url 'student_add' %}" class="btn btn-primary-custom btn-lg">
+                    <i class="fas fa-user-plus me-2"></i>
+                    Add New Student
+                </a>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-5">
+            <div class="col-md-3 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-users fa-2x mb-3"></i>
+                    <h3 class="stats-number">{{ total_students }}</h3>
+                    <p class="mb-0 opacity-75">Total Students</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-graduation-cap fa-2x mb-3"></i>
+                    <h3 class="stats-number">{{ total_students }}</h3>
+                    <p class="mb-0 opacity-75">Active Records</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-chart-line fa-2x mb-3"></i>
+                    <h3 class="stats-number">{{ total_students }}</h3>
+                    <p class="mb-0 opacity-75">Total Entries</p>
+                </div>
+            </div>
+            <div class="col-md-3 mb-4">
+                <div class="stats-card">
+                    <i class="fas fa-database fa-2x mb-3"></i>
+                    <h3 class="stats-number">{{ total_students }}</h3>
+                    <p class="mb-0 opacity-75">Data Records</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Students Table -->
+        <div class="card-custom">
+            <div class="card-body">
+                {% if students %}
+                <div class="table-responsive">
+                    <table class="table table-custom table-hover">
+                        <thead>
+                            <tr>
+                                <th><i class="fas fa-hashtag me-2"></i>ID</th>
+                                <th><i class="fas fa-user me-2"></i>Student Name</th>
+                                <th><i class="fas fa-envelope me-2"></i>Email</th>
+                                <th><i class="fas fa-birthday-cake me-2"></i>Age</th>
+                                <th><i class="fas fa-book me-2"></i>Course</th>
+                                <th><i class="fas fa-cogs me-2"></i>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for student in students %}
+                            <tr class="fade-in">
+                                <td class="fw-bold text-secondary-blue">#{{ forloop.counter }}</td>
+                                <td>
+                                    <div class="d-flex align-items-center">
+                                        <div class="bg-primary-orange rounded-circle me-3 d-flex align-items-center justify-content-center" style="width: 40px; height: 40px;">
+                                            <i class="fas fa-user text-dark"></i>
+                                        </div>
+                                        <div>
+                                            <strong class="text-dark">{{ student.name }}</strong>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="text-dark">{{ student.email }}</td>
+                                <td>
+                                    <span class="badge bg-primary-orange badge-custom text-dark">{{ student.age }} years</span>
+                                </td>
+                                <td>
+                                    <span class="badge bg-secondary-blue badge-custom text-dark">
+                                        <i class="fas fa-graduation-cap me-1"></i>
+                                        {{ student.course }}
+                                    </span>
+                                </td>
+                                <td class="action-buttons">
+                                    <a href="{% url 'student_edit' student.pk %}" class="btn btn-warning-custom btn-sm">
+                                        <i class="fas fa-edit me-1"></i>Edit
+                                    </a>
+                                    <a href="{% url 'student_delete' student.pk %}" class="btn btn-danger-custom btn-sm">
+                                        <i class="fas fa-trash me-1"></i>Delete
+                                    </a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <!-- Empty State -->
+                <div class="empty-state">
+                    <div class="empty-state-icon">
+                        <i class="fas fa-users-slash"></i>
+                    </div>
+                    <h3 class="text-dark mb-3">No Students Found</h3>
+                    <p class="text-muted mb-4">Start building your student database by adding the first student record.</p>
+                    <a href="{% url 'student_add' %}" class="btn btn-primary-custom pulse">
+                        <i class="fas fa-user-plus me-2"></i>Add Your First Student
+                    </a>
+                </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
